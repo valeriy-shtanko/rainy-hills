@@ -3,7 +3,7 @@
 Rainy hills application takes an array of integer numbers (hills landscape) as an input, and calculates the volume of water
 which remained after the rain between hills.
 
-Theoretical algorithm complexity is linear - O(n_, as it incorporates only non-nested cycles.
+Theoretical algorithm complexity is linear - O(n), as it incorporates only non-nested cycles.
 
 Downside of the algorithm is high coefficient of memory usage : in each case it requires triple the size of input data 
 to maintain temporary values for the final calculation to be performed in one linear pass.
