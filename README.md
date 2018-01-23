@@ -16,7 +16,7 @@ You can run application project in several ways:
 
 * deploy built war to EJB container (JBoss or WildFly)
 * mvn wildfly-swarm:run
-* mvn package && java -jar ./target/example-jaxrs-cdi-swarm.jar
+* mvn package && java -jar ./target/rainy-hills-swarm.jar
 
 ## Use
 
