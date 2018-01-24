@@ -1,329 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--
+     | PROJECT
+     -->
+    <groupId>com.task.rainyhills</groupId>
+    <artifactId>rainy-hills</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
-  <modelVersion>4.0.0</modelVersion>
+    <name>Rainy Hills</name>
+    <description>Java EE Coding Exercise</description>
 
-  <!--
-   | PROJECT
-   -->
-  <groupId>com.task.rainyhills</groupId>
-  <artifactId>rainy-hills</artifactId>
-  <version>2018.2.0-SNAPSHOT</version>
-
-  <name>Rainy Hills</name>
-  <description>Java EE Coding Exercise</description>
-
-  <packaging>war</packaging>
-
-  <!--
-   | PROPERTIES
-   -->
-  <properties>
-    <version.wildfly-swarm>${project.version}</version.wildfly-swarm>
-
-    <maven.min.version>3.2.1</maven.min.version>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
-
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <arquillian.version>1.1.14.Final</arquillian.version>
-  </properties>
-
-  <!--
-   | REPOSITORIES
-   -->
-  <repositories>
-    <repository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-
-    <repository>
-      <id>jboss-public-repository-group</id>
-      <name>JBoss Public Repository Group</name>
-      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-        <pluginRepository>
-        <id>sonatype-nexus-snapshots</id>
-        <name>Sonatype Nexus Snapshots</name>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        <releases>
-          <enabled>false</enabled>
-        </releases>
-        <snapshots>
-          <enabled>true</enabled>
-        </snapshots>
-      </pluginRepository>
-  </pluginRepositories>
-
-  <!--
-   | BUILD
-   -->
-  <build>
-    <finalName>${project.artifactId}</finalName>
+    <packaging>war</packaging>
 
     <!--
-     | PLUGINS MANAGEMENT
+     | PROPERTIES
      -->
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.wildfly.swarm</groupId>
-          <artifactId>wildfly-swarm-plugin</artifactId>
-          <version>${version.wildfly-swarm}</version>
+    <properties>
+        <version.wildfly.swarm>2018.1.0</version.wildfly.swarm>
 
-          <configuration>
-            <jvmArguments>
-              <jvmArgument>-Xmx128m</jvmArgument>
-            </jvmArguments>
-          </configuration>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
-          <executions>
-            <execution>
-              <id>package</id>
-            </execution>
-            <execution>
-              <id>start</id>
-            </execution>
-            <execution>
-              <id>stop</id>
-            </execution>
-          </executions>
-        </plugin>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>bom-all</artifactId>
+                <version>${version.wildfly.swarm}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
 
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.5.1</version>
-        </plugin>
+            <!-- clip -->
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>1.2.0.Final</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <!-- clip -->
+        </dependencies>
+    </dependencyManagement>
 
-        <plugin>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.19.1</version>
-        </plugin>
 
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.19.1</version>
-          <configuration>
-            <systemPropertyVariables>
-              <!--<org.apache.maven.user-settings>${session.request.userSettingsFile.path}</org.apache.maven.user-settings>-->
-            </systemPropertyVariables>
-          </configuration>
-        </plugin>
+    <build>
+        <finalName>${project.artifactId}</finalName>
 
-        <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>2.6</version>
-          <configuration>
-            <failOnMissingWebXml>false</failOnMissingWebXml>
-          </configuration>
-        </plugin>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>wildfly-swarm-plugin</artifactId>
+                <version>${version.wildfly.swarm}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.10</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+            </plugin>
+            
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <phantomjs.binary.version>2.1.1</phantomjs.binary.version>
+                    </systemPropertyVariables>
+                </configuration>
 
-    <!--
-     | PLUGINS
-     -->
-    <plugins>
-      <plugin>
-        <groupId>org.wildfly.swarm</groupId>
-        <artifactId>wildfly-swarm-plugin</artifactId>
-        <version>${version.wildfly-swarm}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>package</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-
-        <executions>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>src/it/java</source>
-              </sources>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>add-resource</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>src/it/resources</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>**/*IT.java</include>
-          </includes>
-          <systemPropertyVariables>
-            <phantomjs.binary.version>2.1.1</phantomjs.binary.version>
-            <!--<org.apache.maven.user-settings>${session.request.userSettingsFile.path}</org.apache.maven.user-settings>-->
-          </systemPropertyVariables>
-        </configuration>
-
-        <executions>
-          <execution>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-
-  <!--
-   | DEPENDENCIES
-  -->
-  <dependencies>
-    <dependency>
-      <groupId>org.jboss.spec.javax.ws.rs</groupId>
-      <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
-      <version>1.0.0.Final</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.enterprise</groupId>
-      <artifactId>cdi-api</artifactId>
-      <version>1.2</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>arquillian</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jboss.arquillian.junit</groupId>
-      <artifactId>arquillian-junit-container</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jboss.arquillian.graphene</groupId>
-      <artifactId>graphene-webdriver</artifactId>
-      <version>2.1.0.Alpha2</version>
-      <type>pom</type>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
-      <version>1.4</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <!-- clip -->
-    <dependency>
-      <groupId>org.jboss.arquillian.container</groupId>
-      <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
-      <version>1.0.0.CR9</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.weld</groupId>
-      <artifactId>weld-core</artifactId>
-      <version>2.3.5.Final</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.6.4</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- clip -->
-
-  </dependencies>
-
-  <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.wildfly.swarm</groupId>
-        <artifactId>bom-all</artifactId>
-        <version>${project.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
+        <!-- Java EE 7 dependency -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
 
-      <dependency>
-        <groupId>org.jboss.arquillian</groupId>
-        <artifactId>arquillian-bom</artifactId>
-        <version>${arquillian.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
+        <!-- WildFly Swarm Fractions -->
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>ejb</artifactId>
+        </dependency>
 
-      <dependency>
-        <groupId>org.jboss.arquillian.extension</groupId>
-        <artifactId>arquillian-drone-bom</artifactId>
-        <version>2.0.1.Final</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>jaxrs-jaxb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>cdi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>transactions</artifactId>
+        </dependency>
+
+        <!-- Testing Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert</artifactId>
+            <version>1.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- clip -->
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
+            <version>1.0.0.CR9</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-core</artifactId>
+            <version>2.3.5.Final</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.4</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- clip -->
     </dependencies>
-  </dependencyManagement>
-
 </project>
