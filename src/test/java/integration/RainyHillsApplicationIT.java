@@ -9,7 +9,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,7 +24,6 @@ import static org.fest.assertions.Assertions.assertThat;
  * Created by Valeriy Shtanko on 2018-Jan-21, 20:15
  */
 @RunWith(Arquillian.class)
-@Ignore("Ignored because of fail with 'java.lang.ClassNotFoundException: org.jboss.tm.usertx.UserTransactionOperationsProvider'")
 public class RainyHillsApplicationIT {
     @Inject
     RainyHillsController rainyHillsController;
@@ -51,7 +49,7 @@ public class RainyHillsApplicationIT {
     }
 
     @Test
-    public void test1Post() {
+    public void testControllerCalculate() {
         assertThat( rainyHillsController.calculateVolume(new CalculateVolumeRequest(new int[] {3,1,3})))
             .contains("\"volume\": 2");
     }
